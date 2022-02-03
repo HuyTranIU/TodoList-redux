@@ -3,14 +3,16 @@ import Todo from '../Todo';
 import { useDispatch, useSelector } from 'react-redux';
 import { addTodo } from '../../redux/actions';
 import { useState } from 'react'
-import { todoListSelector } from '../../redux/selectors'
+import { todoRemainingSelector } from '../../redux/selectors'
 
 export default function TodoList() {
   const [todoName, setTodoName] = useState('')
   const [priority, setPriority] = useState('Medium')
 
   const dispatch = useDispatch()
-  const todoLists = useSelector(todoListSelector)
+  const todoLists = useSelector(todoRemainingSelector)
+
+  console.log(todoLists);
 
   const handleInputChange = (e) => {
     setTodoName(e.target.value)
@@ -30,15 +32,21 @@ export default function TodoList() {
           priority: priority
         }
       ))
-      setTodoName('')
-      setPriority('Medium')
+    setTodoName('')
+    setPriority('Medium')
   }
 
   return (
     <Row style={{ height: 'calc(100% - 40px)' }}>
       <Col span={24} style={{ height: 'calc(100% - 40px)', overflowY: 'auto' }}>
         {todoLists.map((todo) =>
-          <Todo key={todo.id} name={todo.name} priority={todo.priority} />
+          <Todo 
+          key={todo.id} 
+          name={todo.name} 
+          id={todo.id}
+          priority={todo.priority} 
+          completed={todo.completed}
+          />
         )}
       </Col>
       <Col span={24}>
